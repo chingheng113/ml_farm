@@ -1,0 +1,18 @@
+1: ID
+2-63 (62 items): input variables, carotid doppler data
+64-80 (17 items): prediction targets, 17 cerebral vessels
+81-88 (8 items): groups of targets
+81: Extra_code, if any stenosis  of extracranial arteries is noted -> 1, else 0
+82: Intra_code, if any stenosis  of intracranial arteries is noted -> 1, else 0
+83: Ant_code, if any stenosis  of anterior circulation is noted -> 1, else 0
+84: Post_code, if any stenosis  of posterior circulation is noted -> 1, else 0
+85: Stenosis_code, if any stenosis  of cerebral circulation is noted -> 1, else 0
+86: Extra_Intra, extra=0, intra=0, coding=1
+                             extra=0, intra=1, coding=2
+                             extra=1, intra=0, coding=3
+                             extra=1, intra=1, coding=4
+87: Ant_Post, Ant =0, Post =0, coding=1
+                         Ant =0, Post =1, coding=2
+                         Ant =1, Post =0, coding=3
+                         Ant =1, Post =1, coding=4
+88: Stenosis_total, total number of stenotic vessels, codeing 0-17
