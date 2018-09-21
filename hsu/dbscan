@@ -6,16 +6,19 @@ import numpy as np
 import pandas as pd
 
 seed = 7
-df = data_util.load_all('carotid_modified_1.csv')
-# x_data = data_util.scale(df.iloc[:, 1:62])
+df = data_util.load_all('carotid_ko.csv')
+# df = df[(df['Extra_Intra'] == 3) | (df['Extra_Intra'] == 4)]
+x_data = data_util.scale(df.iloc[:, 1:62])
 
-df_2 = df[['XRV_PS', 'XRV_ED']]
-x_data = data_util.scale(df_2)
+# df_2 = df[['XRV_PS', 'XRV_ED']]
+# x_data = data_util.scale(df_2)
 
-# x_data = pd.read_csv(data_util.get_file_path('tsne_2d.csv'), encoding='utf8')
-# x_data = data_util.scale(x_data.ix[:, 0:2])
+x_data = pd.read_csv(data_util.get_file_path('tsne_2d_oneTwo.csv'), encoding='utf8')
+x_data = data_util.scale(x_data.ix[:, 0:2])
 
-labels_true = df['Extra_code']
+# labels_true = df['Extra_code']
+labels_true =df.Extra_Intra[(df['Extra_Intra'] == 1) | (df['Extra_Intra'] == 2)]
+
 # Compute DBSCAN
 mSample = 10 #round(df.shape[0]/10, 0)
 db = DBSCAN(eps=0.5, min_samples=mSample).fit(x_data)
