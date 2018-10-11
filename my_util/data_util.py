@@ -6,12 +6,6 @@ import numpy as np
 import os
 
 
-def get_model_path(file_name):
-    dirname = os.path.dirname(__file__)
-    filepath = os.path.join(dirname, '..' + os.sep + 'saved_model' + os.sep)
-    return os.path.join(filepath + file_name)
-
-
 def get_file_path(file_name):
     dirname = os.path.dirname(__file__)
     filepath = os.path.join(dirname, '..' + os.sep + 'data_source' + os.sep)
@@ -21,7 +15,8 @@ def get_file_path(file_name):
 def load_all(fn):
     read_file_path = get_file_path(fn)
     df = pd.read_csv(read_file_path, encoding='utf8')
-    df = df.sample(frac=1)
+    # df = df.sample(frac=1)
+    # df = df.ix[:10]
     return df
 
 
@@ -47,3 +42,10 @@ def save_np_array_to_csv(array, file_name):
     dirname = os.path.dirname(__file__)
     filepath = os.path.join(dirname, '..'+os.sep+'data_source'+os.sep)
     np.savetxt(filepath + file_name + '.csv', array, delimiter=',', fmt='%s')
+
+
+def labelize(y_arr):
+    y_label = []
+    for y in y_arr:
+        y_label = np.append(y_label, np.argmax(y))
+    return y_label

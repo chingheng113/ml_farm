@@ -2,26 +2,30 @@ from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 from my_util import data_util
 from sklearn import metrics
+from carotid import carotid_data_util as cdu
 import numpy as np
 import pandas as pd
 
+dataset = 'done'
+target = 'RCCA'
 seed = 7
-df = data_util.load_all('carotid_ko.csv')
-# df = df[(df['Extra_Intra'] == 3) | (df['Extra_Intra'] == 4)]
-x_data = data_util.scale(df.iloc[:, 1:62])
-
-# df_2 = df[['XRV_PS', 'XRV_ED']]
-# x_data = data_util.scale(df_2)
-
-x_data = pd.read_csv(data_util.get_file_path('tsne_2d_oneTwo.csv'), encoding='utf8')
-x_data = data_util.scale(x_data.ix[:, 0:2])
-
-# labels_true = df['Extra_code']
-labels_true =df.Extra_Intra[(df['Extra_Intra'] == 1) | (df['Extra_Intra'] == 2)]
+if dataset == 'done':
+    id_all, x_data_all, y_data_all = cdu.get_done(target)
+    fName = 'svm_new_done.csv'
+else:
+    id_all, x_data_all, y_data_all = cdu.get_new(target)
+    fName = 'svm_new.csv'
+# --
+x_data_all = x_data_all.loc[y_data_all[target]==0]
+y_data_all = y_data_all[y_data_all[target]==0]
+x_data_all = x_data_all[['XRC_PS', 'XRC_ED']]
+# --
+x_data_all = data_util.scale(x_data_all)
+labels_true = y_data_all.values.ravel()
 
 # Compute DBSCAN
-mSample = 10 #round(df.shape[0]/10, 0)
-db = DBSCAN(eps=0.5, min_samples=mSample).fit(x_data)
+mSample = round(id_all.shape[0]/100, 0)
+db = DBSCAN(eps=0.8, min_samples=mSample).fit(x_data_all)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 # Noise
@@ -52,13 +56,13 @@ for k, col in zip(unique_labels, colors):
 
     class_member_mask = (labels == k)
 
-    xy = x_data[class_member_mask & core_samples_mask]
+    xy = x_data_all[class_member_mask & core_samples_mask]
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
              markeredgecolor='k', markersize=5)
 
-    xy = x_data[class_member_mask & ~core_samples_mask]
+    xy = x_data_all[class_member_mask & ~core_samples_mask]
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
              markeredgecolor='k', markersize=2)
 
-plt.title('DBSCAN: t-sne 2D\n Estimated number of clusters: %d' % n_clusters_)
+plt.title(target + '_DBSCAN: t-sne 2D\n Estimated number of clusters: %d' % n_clusters_)
 plt.show()
