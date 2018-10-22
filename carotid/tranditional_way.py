@@ -2,15 +2,11 @@ from carotid import carotid_data_util as cdu
 from my_util import data_util
 from sklearn.metrics import classification_report
 
-dataset = 'done'
-target = 'LEICA'
+
+target = 'REICA'
 seed = 7
-if dataset == 'done':
-    id_all, x_data_all, y_data_all = cdu.get_done(target)
-    fName = 'svm_new_done'
-else:
-    id_all, x_data_all, y_data_all = cdu.get_ko(target)
-    fName = 'svm_ko'
+id_all, x_data_all, y_data_all = cdu.get_exin_data(target)
+
 
 predict = []
 if target == 'RCCA':
@@ -21,9 +17,9 @@ if target == 'RCCA':
         else:
             predict.append(0)
 elif target == 'REICA':
-    # REICA:  XRI_St  >  50  or  XRI_PS  >  125  or  XRI_PS/XRC_PS  >  2
+    # REICA:  XRI_St  >  50  or  XRI_PS  >  125  or  XRI_PS/XRC_PS  >  2 or XRI_ED > 40
     for index, row in x_data_all.iterrows():
-        if ((row['XRI_St'] >50.) | (row['XRI_PS'] > 125.) | (row['XRI_PS']/row['XRC_PS'] > 2.)):
+        if ((row['XRI_St'] >50.) | (row['XRI_PS'] > 125.) | (row['XRI_PS']/row['XRC_PS'] > 2.) | (row['XRI_ED'] > 40.)):
             predict.append(1)
         else:
             predict.append(0)
@@ -42,9 +38,9 @@ elif target == 'LCCA':
         else:
             predict.append(0)
 elif target == 'LEICA':
-    # LEICA:  XLI_St  >  50  or  XLI_PS  >  125  or  XLI_PS/XLC_PS  >  2
+    # LEICA:  XLI_St  >  50  or  XLI_PS  >  125  or  XLI_PS/XLC_PS  >  2 or XLI_ED > 40
     for index, row in x_data_all.iterrows():
-        if ((row['XLI_St'] >50.) | (row['XLI_PS'] > 125.) | (row['XLI_PS']/row['XLC_PS'] > 2.)):
+        if ((row['XLI_St'] >50.) | (row['XLI_PS'] > 125.) | (row['XLI_PS']/row['XLC_PS'] > 2.) | (row['XLI_ED'] > 40.)):
             predict.append(1)
         else:
             predict.append(0)

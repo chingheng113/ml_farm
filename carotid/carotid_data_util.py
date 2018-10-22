@@ -13,8 +13,8 @@ def get_ex_data(target):
     resample_size = df_target.shape[0]
     df_n_downsampled = resample(df_normal,
                                 replace=False,    # sample without replacement
-                                n_samples=resample_size,     # to match minority class
-                                random_state=7) # reproducible results
+                                n_samples=resample_size)     # to match minority class
+
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     x_data = df_all.iloc[:, 1:111]
@@ -30,8 +30,8 @@ def get_exin_data(target):
     resample_size = df_target.shape[0]
     df_n_downsampled = resample(df_normal,
                                 replace=False,    # sample without replacement
-                                n_samples=resample_size,     # to match minority class
-                                random_state=7) # reproducible results
+                                n_samples=resample_size)     # to match minority class
+
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     x_data = df_all.iloc[:, 1:167]
@@ -52,8 +52,8 @@ def get_ex_all():
     resample_size = df_s.shape[0]
     df_n_downsampled = resample(df_n,
                             replace=False,    # sample without replacement
-                            n_samples=resample_size,     # to match minority class
-                            random_state=7)     # reproducible results
+                            n_samples=resample_size)     # to match minority class
+
     df_all = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     x_data = df_all.iloc[:, 1:111]
@@ -73,8 +73,8 @@ def get_ex_in_all():
     resample_size = df_s.shape[0]
     df_n_downsampled = resample(df_n,
                                 replace=False,    # sample without replacement
-                                n_samples=resample_size,     # to match minority class
-                                random_state=7)     # reproducible results
+                                n_samples=resample_size)     # to match minority class
+
     df_all = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     x_data = df_all.iloc[:, 1:166]
