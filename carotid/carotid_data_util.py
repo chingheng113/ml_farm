@@ -5,51 +5,89 @@ import numpy as np
 from sklearn.utils import resample
 
 
-def get_done(target):
-    df = data_util.load_all('carotid_new_done.csv')
-    df_s = df[(df['Stenosis_code'] == 1) & (df[target] == 1)]
-    resample_size = df_s.shape[0]
-    df_n = df[df['Stenosis_code'] == 0]
-    df_n_downsampled = resample(df_n,
+def get_ex_data(target):
+    df_target = data_util.load_all('Extracranial'+os.sep+target+'_ext_na_ou.csv')
+    df_target[target] = 1
+    df_normal = data_util.load_all('Extracranial'+os.sep+'normal_ext_na_ou.csv')
+    df_normal[target] = 0
+    resample_size = df_target.shape[0]
+    df_n_downsampled = resample(df_normal,
                                 replace=False,    # sample without replacement
                                 n_samples=resample_size,     # to match minority class
                                 random_state=7) # reproducible results
-    resample_inx = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
-    id = df[['ID']].loc[resample_inx.index]
-    x_data = df.iloc[:, 1:126].loc[resample_inx.index]
-    y_data = df[[target]].loc[resample_inx.index]
+    df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
+    id = df_all[['ID']]
+    x_data = df_all.iloc[:, 1:111]
+    y_data = df_all[[target]]
     return id, x_data, y_data
 
 
-def get_new(target):
-    df = data_util.load_all('carotid_new.csv')
-    df_s = df[(df['Stenosis_code'] == 1) & (df[target] == 1)]
-    resample_size = df_s.shape[0]
-    df_n = df[df['Stenosis_code'] == 0]
-    df_n_downsampled = resample(df_n,
+def get_exin_data(target):
+    df_target = data_util.load_all('Extracranial+Intracranial'+os.sep+target+'_int_ext_na_ou.csv')
+    df_target[target] = 1
+    df_normal = data_util.load_all('Extracranial+Intracranial'+os.sep+'normal_int_ext_na_ou.csv')
+    df_normal[target] = 0
+    resample_size = df_target.shape[0]
+    df_n_downsampled = resample(df_normal,
                                 replace=False,    # sample without replacement
                                 n_samples=resample_size,     # to match minority class
                                 random_state=7) # reproducible results
-    resample_inx = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
-    id = df[['ID']].loc[resample_inx.index]
-    x_data = df.iloc[:, 1:126].loc[resample_inx.index]
-    y_data = df[[target]].loc[resample_inx.index]
+    df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
+    id = df_all[['ID']]
+    x_data = df_all.iloc[:, 1:167]
+    y_data = df_all[[target]]
     return id, x_data, y_data
 
 
-def get_ko(target):
-    df = data_util.load_all('carotid_ko.csv')
-    df_s = df[(df['Stenosis_code'] == 1) & (df[target] == 1)]
+def get_ex_all():
+    df = data_util.load_all('Extracranial'+os.sep+'ALL_ext_na_ou.csv')
+    # df = df.iloc[1:100, :]
+    #
+    df_n = df[(df['RCCA'] == 0) & (df['REICA'] == 0) & (df['RIICA'] == 0) & (df['RACA'] == 0) &
+              (df['RMCA'] == 0) & (df['RPCA'] == 0) & (df['REVA'] == 0) & (df['RIVA'] == 0) &
+              (df['BA'] == 0) & (df['LCCA'] == 0) & (df['LEICA'] == 0) & (df['LIICA'] == 0) &
+              (df['LACA'] == 0) & (df['LMCA'] == 0) & (df['LPCA'] == 0) & (df['LEVA'] == 0) &
+              (df['LIVA'] == 0)]
+    df_s = df.drop(index=df_n.index)
     resample_size = df_s.shape[0]
-    df_n = df[df['Stenosis_code'] == 0]
+    df_n_downsampled = resample(df_n,
+                            replace=False,    # sample without replacement
+                            n_samples=resample_size,     # to match minority class
+                            random_state=7)     # reproducible results
+    df_all = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
+    id = df_all[['ID']]
+    x_data = df_all.iloc[:, 1:111]
+    y_data = df_all.iloc[:, 111:]
+    return id, x_data, y_data
+
+
+def get_ex_in_all():
+    df = data_util.load_all('Extracranial+Intracranial'+os.sep+'ALL_int_ext_na_ou.csv')
+    #
+    df_n = df[(df['RCCA'] == 0) & (df['REICA'] == 0) & (df['RIICA'] == 0) & (df['RACA'] == 0) &
+              (df['RMCA'] == 0) & (df['RPCA'] == 0) & (df['REVA'] == 0) & (df['RIVA'] == 0) &
+              (df['BA'] == 0) & (df['LCCA'] == 0) & (df['LEICA'] == 0) & (df['LIICA'] == 0) &
+              (df['LACA'] == 0) & (df['LMCA'] == 0) & (df['LPCA'] == 0) & (df['LEVA'] == 0) &
+              (df['LIVA'] == 0)]
+    df_s = df.drop(index=df_n.index)
+    resample_size = df_s.shape[0]
     df_n_downsampled = resample(df_n,
                                 replace=False,    # sample without replacement
                                 n_samples=resample_size,     # to match minority class
-                                random_state=7) # reproducible results
-    resample_inx = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
-    id = df[['ID']].loc[resample_inx.index]
-    x_data = df.iloc[:, 1:63].loc[resample_inx.index]
-    y_data = df[[target]].loc[resample_inx.index]
+                                random_state=7)     # reproducible results
+    df_all = pd.concat([df_s, df_n_downsampled], axis=0).sample(frac=1)
+    id = df_all[['ID']]
+    x_data = df_all.iloc[:, 1:166]
+    y_data = df_all.iloc[:, 166:]
+    return id, x_data, y_data
+
+
+def get_ex_normal():
+    df_normal = data_util.load_all('Extracranial'+os.sep+'normal_ext_na_ou.csv')
+    df_normal['normal'] = 0
+    id = df_normal[['ID']]
+    x_data = df_normal.iloc[:, 1:111]
+    y_data = df_normal[['normal']]
     return id, x_data, y_data
 
 
@@ -66,6 +104,5 @@ def get_result(fn):
 
 
 if __name__ == '__main__':
-    id, x_data, y_data = get_jim2('RCCA')
-    predict_result_hold = y_data
-    predict_result_hold.to_csv(get_save_path('inx1.csv'), sep=',', encoding='utf-8')
+    get_ex_in_all()
+    print('done')

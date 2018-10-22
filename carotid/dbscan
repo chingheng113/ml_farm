@@ -6,26 +6,17 @@ from carotid import carotid_data_util as cdu
 import numpy as np
 import pandas as pd
 
-dataset = 'done'
+
 target = 'RCCA'
 seed = 7
-if dataset == 'done':
-    id_all, x_data_all, y_data_all = cdu.get_done(target)
-    fName = 'svm_new_done.csv'
-else:
-    id_all, x_data_all, y_data_all = cdu.get_new(target)
-    fName = 'svm_new.csv'
-# --
-x_data_all = x_data_all.loc[y_data_all[target]==0]
-y_data_all = y_data_all[y_data_all[target]==0]
-x_data_all = x_data_all[['XRC_PS', 'XRC_ED']]
-# --
+id_all, x_data_all, y_data_all = cdu.get_ex_data(target)
+fName = 'dbscan.csv'
 x_data_all = data_util.scale(x_data_all)
 labels_true = y_data_all.values.ravel()
 
 # Compute DBSCAN
 mSample = round(id_all.shape[0]/100, 0)
-db = DBSCAN(eps=0.8, min_samples=mSample).fit(x_data_all)
+db = DBSCAN(eps=20, min_samples=mSample).fit(x_data_all)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 # Noise
