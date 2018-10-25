@@ -34,7 +34,7 @@ def get_exin_data(target):
 
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
-    x_data = df_all.iloc[:, 1:167]
+    x_data = df_all.iloc[:, 1:166]
     y_data = df_all[[target]]
     return id, x_data, y_data
 

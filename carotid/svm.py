@@ -5,8 +5,8 @@ from my_util import data_util
 import pandas as pd
 
 seed = 7
-target = 'REICA'
-soure = 'ex'
+target = 'RCCA'
+soure = 'exin'
 
 # hold-out
 # if(soure == 'exin'):

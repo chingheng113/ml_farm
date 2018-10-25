@@ -49,9 +49,9 @@ LPCA
 LEVA
 LIVA
 '''
-target = 'LIVA'
-source = 'exin'
-classifier = 'svm'
+target = 'RMCA'
+source = 'ex'
+classifier = 'cnn'
 
 # result = cdu.get_result(classifier+'_'+soure+'_'+target+'.csv')
 # label = result['label']
@@ -69,12 +69,14 @@ classifier = 'svm'
 sen =[]
 spe = []
 acc = []
-for inx in range(0, 10, 1):
-    result = cdu.get_result(source+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
+# for inx in range(0, 10, 1):
+for inx in range(0, 3, 1):
+    # result = cdu.get_result(source+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
+    result = cdu.get_result(classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
     label = list(result['label'].values)
     probas_ = result[['0', '1']].values
     predict = list(data_util.labelize(probas_))
-    # print(classification_report(label, predict, digits=4))
+    print(classification_report(label, predict, digits=4))
     cm = confusion_matrix(label, predict)
     TPR, TNR, ACC = get_p(cm)
     if inx == 0:
