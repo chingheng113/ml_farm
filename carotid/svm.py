@@ -5,8 +5,9 @@ from my_util import data_util
 import pandas as pd
 
 seed = 7
-target = 'RCCA'
-soure = 'exin'
+target = 'REICA'
+soure = 'ex'
+feature_selection = True
 
 # hold-out
 # if(soure == 'exin'):
@@ -54,11 +55,19 @@ soure = 'exin'
 # boost leave-one-out
 for i in range(0, 10):
     if(soure == 'exin'):
-        id_all, x_data_all, y_data_all = cdu.get_exin_data(target)
-        fName = 'svm_exin_'+target
+        if(feature_selection):
+            id_all, x_data_all, y_data_all = cdu.get_exin_fs_data(target)
+            fName = 'svm_exin_'+target+'_fs'
+        else:
+            id_all, x_data_all, y_data_all = cdu.get_exin_data(target)
+            fName = 'svm_exin_'+target
     else:
-        id_all, x_data_all, y_data_all = cdu.get_ex_data(target)
-        fName = 'svm_ex_'+target
+        if(feature_selection):
+            id_all, x_data_all, y_data_all = cdu.get_ex_fs_data(target)
+            fName = 'svm_ex_'+target+'_fs'
+        else:
+            id_all, x_data_all, y_data_all = cdu.get_ex_data(target)
+            fName = 'svm_ex_'+target
     lst = []
     scaled_data = data_util.scale(x_data_all)
     x_data_all = pd.DataFrame(scaled_data, index=x_data_all.index, columns=x_data_all.columns)

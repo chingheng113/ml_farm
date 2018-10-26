@@ -49,10 +49,10 @@ LPCA
 LEVA
 LIVA
 '''
-target = 'RMCA'
+target = 'RCCA'
 source = 'ex'
-classifier = 'cnn'
-
+classifier = 'svm'
+feature_selection = True
 # result = cdu.get_result(classifier+'_'+soure+'_'+target+'.csv')
 # label = result['label']
 # probas_ = result[['0', '1']].values
@@ -69,10 +69,12 @@ classifier = 'cnn'
 sen =[]
 spe = []
 acc = []
-# for inx in range(0, 10, 1):
-for inx in range(0, 3, 1):
-    # result = cdu.get_result(source+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
-    result = cdu.get_result(classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
+for inx in range(0, 10, 1):
+    if feature_selection :
+        result = cdu.get_result(source+'_fs'+os.sep+classifier+'_'+source+'_'+target+'_fs_'+str(inx)+'.csv')
+    else:
+        result = cdu.get_result(source+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
+        # result = cdu.get_result(classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
     label = list(result['label'].values)
     probas_ = result[['0', '1']].values
     predict = list(data_util.labelize(probas_))

@@ -1,9 +1,9 @@
 from my_util import data_util
-import os
+import os, csv
 import pandas as pd
 import numpy as np
 from sklearn.utils import resample
-
+from collections import Counter
 
 def get_ex_data(target):
     df_target = data_util.load_all('Extracranial'+os.sep+target+'_ext_na_ou.csv')
@@ -18,6 +18,26 @@ def get_ex_data(target):
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     x_data = df_all.iloc[:, 1:111]
+    y_data = df_all[[target]]
+    return id, x_data, y_data
+
+
+def get_ex_fs_data(target):
+    df_target = data_util.load_all('Extracranial'+os.sep+target+'_ext_na_ou.csv')
+    df_target[target] = 1
+    df_normal = data_util.load_all('Extracranial'+os.sep+'normal_ext_na_ou.csv')
+    df_normal[target] = 0
+    resample_size = df_target.shape[0]
+    df_n_downsampled = resample(df_normal,
+                                replace=False,    # sample without replacement
+                                n_samples=resample_size)     # to match minority class
+
+    df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
+    id = df_all[['ID']]
+    # feature selection
+    x_data = df_all.iloc[:, 1:111]
+    selected_fs = get_selected_features(target, 'ex', 5)
+    x_data = x_data[selected_fs]
     y_data = df_all[[target]]
     return id, x_data, y_data
 
@@ -37,6 +57,37 @@ def get_exin_data(target):
     x_data = df_all.iloc[:, 1:166]
     y_data = df_all[[target]]
     return id, x_data, y_data
+
+
+def get_exin_fs_data(target):
+    df_target = data_util.load_all('Extracranial+Intracranial'+os.sep+target+'_int_ext_na_ou.csv')
+    df_target[target] = 1
+    df_normal = data_util.load_all('Extracranial+Intracranial'+os.sep+'normal_int_ext_na_ou.csv')
+    df_normal[target] = 0
+    resample_size = df_target.shape[0]
+    df_n_downsampled = resample(df_normal,
+                                replace=False,    # sample without replacement
+                                n_samples=resample_size)     # to match minority class
+
+    df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
+    id = df_all[['ID']]
+    # feature selection
+    x_data = df_all.iloc[:, 1:166]
+    selected_fs = get_selected_features(target, 'exin', 5)
+    x_data = x_data[selected_fs]
+    y_data = df_all[[target]]
+    return id, x_data, y_data
+
+def get_selected_features(target, soure, threshold):
+    all_selected_features = []
+    with open('fs'+os.sep+target+'_'+soure+'_fs.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            for f in row:
+                all_selected_features.append(f)
+    feature_dict = Counter(all_selected_features)
+    feature_dict_threshold = {k: v for (k, v) in feature_dict.items() if v > threshold}
+    return list(feature_dict_threshold.keys())
 
 
 def get_ex_all():
@@ -104,5 +155,5 @@ def get_result(fn):
 
 
 if __name__ == '__main__':
-    get_ex_in_all()
+    get_exin_fs_data('RCCA')
     print('done')
