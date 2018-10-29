@@ -155,5 +155,5 @@ def get_result(fn):
 
 
 if __name__ == '__main__':
-    get_exin_fs_data('RCCA')
+    get_ex_fs_data('RIICA')
     print('done')
