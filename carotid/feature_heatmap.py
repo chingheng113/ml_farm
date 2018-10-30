@@ -26,12 +26,12 @@ for index, target in enumerate(targets):
 df_all.replace(np.nan, 0, inplace=True)
 
 f, ax = plt.subplots(figsize = (50, df_all.shape[0]))
-cmap = sns.cubehelix_palette(start = 1, rot = 3, gamma=0.8, as_cmap = True)
-g = sns.heatmap(df_all, cmap = cmap, linewidths = 0.05, ax = ax)
+cmap = sns.cubehelix_palette(start=1, rot=3, gamma=0.8, as_cmap=True)
+g = sns.heatmap(df_all, cmap=cmap, linewidths=0.05, ax=ax)
 if soure == ' ex':
-    ax.set_title('Extracranial Feature Selection Heatmap')
+    ax.set_title('Feature Selection Heatmap of Extracranial Inputs')
 else:
-    ax.set_title('Extracranial and  Intracranial Feature Selection Heatmap')
+    ax.set_title('Feature Selection Heatmap of Extracranial and Intracranial Inputs')
 ax.set_xlabel('Dataset')
 ax.set_ylabel('Feature')
 ax.set_yticklabels(g.get_yticklabels(), rotation = 40, fontsize = 5)
