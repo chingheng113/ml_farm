@@ -5,6 +5,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from collections import Counter
 
+
+def cross_selected(df_all):
+    threshold = 10
+    for target in targets:
+        a = df_all.loc[(df_all[target] != threshold) | (df_all[target] < threshold)]
+        print('-')
+
+
+
 # https://zhuanlan.zhihu.com/p/28447106
 targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
            'LMCA', 'LPCA', 'LEVA', 'LIVA']
@@ -24,7 +33,7 @@ for index, target in enumerate(targets):
     else:
         df_all = pd.concat([df_all, feature_df], axis=1)
 df_all.replace(np.nan, 0, inplace=True)
-
+# cross_selected(df_all)
 f, ax = plt.subplots(figsize = (50, df_all.shape[0]))
 cmap = sns.cubehelix_palette(start=1, rot=3, gamma=0.8, as_cmap=True)
 g = sns.heatmap(df_all, cmap=cmap, linewidths=0.05, ax=ax)

@@ -5,7 +5,7 @@ from my_util import data_util
 import pandas as pd
 
 seed = 7
-target = 'REICA'
+target = 'BA'
 soure = 'ex'
 feature_selection = True
 

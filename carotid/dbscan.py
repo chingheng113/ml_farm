@@ -16,7 +16,7 @@ labels_true = y_data_all.values.ravel()
 
 # Compute DBSCAN
 mSample = round(id_all.shape[0]/100, 0)
-db = DBSCAN(eps=20, min_samples=mSample).fit(x_data_all)
+db = DBSCAN(eps=300, min_samples=mSample).fit(x_data_all)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 # Noise

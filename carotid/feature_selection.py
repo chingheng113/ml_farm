@@ -23,7 +23,7 @@ def plot_all_features(source, target, importances, feature_names):
 seed = 7
 # targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
 #            'LMCA', 'LPCA', 'LEVA', 'LIVA']
-target = 'REICA'
+target = 'BA'
 source = 'ex'
 feature_names=''
 all_importance = []

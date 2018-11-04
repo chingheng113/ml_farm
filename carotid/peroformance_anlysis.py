@@ -49,7 +49,7 @@ LPCA
 LEVA
 LIVA
 '''
-target = 'REICA'
+target = 'RCCA'
 source = 'ex'
 classifier = 'svm'
 feature_selection = True
