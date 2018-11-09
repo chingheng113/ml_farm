@@ -16,7 +16,7 @@ def load_all(fn):
     read_file_path = get_file_path(fn)
     df = pd.read_csv(read_file_path, encoding='utf8')
     # df = df.sample(frac=1)
-    df = df.ix[:10]
+    # df = df.ix[:10]
     return df
 
 
