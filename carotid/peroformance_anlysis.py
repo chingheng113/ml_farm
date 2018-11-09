@@ -49,10 +49,10 @@ LPCA
 LEVA
 LIVA
 '''
-target = 'RCCA'
+target = 'BA'
 source = 'ex'
 classifier = 'svm'
-feature_selection = True
+feature_selection = False
 # result = cdu.get_result(classifier+'_'+soure+'_'+target+'.csv')
 # label = result['label']
 # probas_ = result[['0', '1']].values

@@ -26,25 +26,18 @@ def get_p(cm):
     ACC = (TP+TN)/(TP+FP+FN+TN)
     return TPR, TNR, ACC
 
-
+# targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
+#            'LMCA', 'LPCA', 'LEVA', 'LIVA']
 target ='LMCA'
 source = 'ex'
-result_25 = cdu.get_result(target+'_'+source+'_25.csv')
-cm = confusion_matrix(result_25.iloc[:,0], result_25.iloc[:,1])
-TPR, TNR, ACC = get_p(cm)
-print(TPR, TNR, ACC)
-print(classification_report(result_25.iloc[:,0], result_25.iloc[:,1], digits=4))
-
-result_50 = cdu.get_result(target+'_'+source+'_50.csv')
-cm = confusion_matrix(result_50.iloc[:,0], result_50.iloc[:,1])
-TPR, TNR, ACC = get_p(cm)
-print(TPR, TNR, ACC)
-print(classification_report(result_50.iloc[:,0], result_50.iloc[:,1], digits=4))
-
-result_75 = cdu.get_result(target+'_'+source+'_75.csv')
-cm = confusion_matrix(result_75.iloc[:,0], result_75.iloc[:,1])
-TPR, TNR, ACC = get_p(cm)
-print(TPR, TNR, ACC)
-print(classification_report(result_75.iloc[:,0], result_75.iloc[:,1], digits=4))
+portions = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
 
 
+
+
+
+# result_25 = cdu.get_result(target+'_'+source+'_25.csv')
+# cm = confusion_matrix(result_25.iloc[:,0], result_25.iloc[:,1])
+# TPR, TNR, ACC = get_p(cm)
+# print(TPR, TNR, ACC)
+# print(classification_report(result_25.iloc[:,0], result_25.iloc[:,1], digits=4))

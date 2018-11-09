@@ -17,7 +17,7 @@ def get_ex_data(target):
 
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
-    x_data = df_all.iloc[:, 1:111]
+    x_data = df_all.drop(['ID', target], axis=1)
     y_data = df_all[[target]]
     return id, x_data, y_data
 
@@ -35,7 +35,7 @@ def get_ex_fs_data(target):
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     # feature selection
-    x_data = df_all.iloc[:, 1:111]
+    x_data = df_all.drop(['ID', target], axis=1)
     selected_fs = get_selected_features(target, 'ex', 5)
     x_data = x_data[selected_fs]
     y_data = df_all[[target]]
@@ -54,7 +54,7 @@ def get_exin_data(target):
 
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
-    x_data = df_all.iloc[:, 1:166]
+    x_data = df_all.drop(['ID', target], axis=1)
     y_data = df_all[[target]]
     return id, x_data, y_data
 
@@ -72,11 +72,12 @@ def get_exin_fs_data(target):
     df_all = pd.concat([df_target, df_n_downsampled], axis=0).sample(frac=1)
     id = df_all[['ID']]
     # feature selection
-    x_data = df_all.iloc[:, 1:166]
+    x_data = df_all.drop(['ID', target], axis=1)
     selected_fs = get_selected_features(target, 'exin', 5)
     x_data = x_data[selected_fs]
     y_data = df_all[[target]]
     return id, x_data, y_data
+
 
 def get_selected_features(target, soure, threshold):
     all_selected_features = []
