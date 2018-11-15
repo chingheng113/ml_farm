@@ -42,8 +42,8 @@ def do_svn(target, soure, feature_selection):
 
 
 if __name__ == '__main__':
-    target = 'RMCA'
-    source = 'ex'
+    target = 'RCCA'
+    source = 'exin'
     feature_selection = 'fs'
-    do_svn(target, source, feature_selection)
-    # do_svn(sys.argv[1], sys.argv[2], sys.argv[2])
+    # do_svn(target, source, feature_selection)
+    do_svn(sys.argv[1], sys.argv[2], sys.argv[3])

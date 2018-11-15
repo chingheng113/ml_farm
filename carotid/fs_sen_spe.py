@@ -28,16 +28,17 @@ def get_p(cm):
     ACC = (TP+TN)/(TP+FP+FN+TN)
     return TPR, TNR, ACC
 
+
 targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
            'LMCA', 'LPCA', 'LEVA', 'LIVA']
-source = 'ex'
+source = 'exin'
 portions = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
 colors = cm.gnuplot(np.linspace(0, 1, len(targets)))
-f, axes = plt.subplots(17, 1, sharex='col', sharey='row', figsize=(8, 8), constrained_layout=True)
-if source == 'exin':
-    plt.suptitle('Sensitive changes of different number of extracranial inputs')
-else:
-    plt.suptitle('Sensitive changes of different number of extracranial and intracranial inputs')
+fig, axes = plt.subplots(17, sharex=True, figsize=(8, 8), constrained_layout=False)
+# if source == 'ex':
+#     plt.suptitle('Sensitive changes of different number of extracranial inputs')
+# else:
+#     plt.suptitle('Sensitive changes of different number of extracranial and intracranial inputs')
 for inx, target in enumerate(targets):
     sen_por = []
     sdv_por = []
@@ -63,8 +64,11 @@ for inx, target in enumerate(targets):
     axes[inx].set_facecolor('silver')
     axes[inx].legend(loc="center left", bbox_to_anchor=(1, 0.5), prop={'size': 8})
     axes[inx].set_xlim(0.2, 0.7)
-    # plt.errorbar(portions, sen_por, yerr=sdv_por, label=target, c=colors[inx])
-    # plt.legend(loc="center left", bbox_to_anchor=(1, 0.5), prop={'size': 8})
+
+fig.text(0.5, 0.05, 'Portion of selection', ha='center', va='center')
+fig.text(0.03, 0.5, 'Sensitivity', ha='center', va='center', rotation='vertical')
+
+plt.subplots_adjust(hspace=0.2)
 plt.show()
 print('done')
 

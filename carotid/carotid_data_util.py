@@ -36,7 +36,7 @@ def get_ex_fs_data(target):
     id = df_all[['ID']]
     # feature selection
     x_data = df_all.drop(['ID', target], axis=1)
-    selected_fs = get_selected_features(target, 'ex', 0)
+    selected_fs = get_selected_features(target, 'ex', 5)
     x_data = x_data[selected_fs]
     y_data = df_all[[target]]
     return id, x_data, y_data

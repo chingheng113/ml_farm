@@ -67,26 +67,27 @@ def highest_portion(target, source):
 seed = 7
 targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
            'LMCA', 'LPCA', 'LEVA', 'LIVA']
-# target = 'BA'
+# targets = ['RCCA']
 source = 'exin'
 for target in targets:
     with open('fs'+os.sep+target+'_'+source+'_fs.csv', 'w', newline="") as csv_file:
-        if(source == 'exin'):
-            id_all, x_data_all, y_data_all = cdu.get_exin_data(target)
-            fName = 'fs_exin_'+target
-        else:
-            id_all, x_data_all, y_data_all = cdu.get_ex_data(target)
-            fName = 'fs_ex_'+target
-        feature_names = x_data_all.columns.values
-        # Build a forest and compute the feature importances
-        forest = ExtraTreesClassifier(n_estimators=250, random_state=0)
-        forest.fit(x_data_all, y_data_all)
-        importances = forest.feature_importances_
-        indices = np.argsort(importances)[::-1]
-        p = highest_portion(target, source)
-        slice_indice = indices[0:int(indices.size*p)]
-        selected_f = feature_names[slice_indice]
-        wr = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
-        wr.writerow(selected_f)
+        for i in range(0, 10, 1):
+            if(source == 'exin'):
+                id_all, x_data_all, y_data_all = cdu.get_exin_data(target)
+                fName = 'fs_exin_'+target
+            else:
+                id_all, x_data_all, y_data_all = cdu.get_ex_data(target)
+                fName = 'fs_ex_'+target
+            feature_names = x_data_all.columns.values
+            # Build a forest and compute the feature importances
+            forest = ExtraTreesClassifier(n_estimators=250, random_state=0)
+            forest.fit(x_data_all, y_data_all)
+            importances = forest.feature_importances_
+            indices = np.argsort(importances)[::-1]
+            p = highest_portion(target, source)
+            slice_indice = indices[0:int(indices.size*p)]
+            selected_f = feature_names[slice_indice]
+            wr = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+            wr.writerow(selected_f)
     print("===")
 

@@ -49,10 +49,10 @@ LPCA
 LEVA
 LIVA
 '''
-target = 'LCCA'
-source = 'ex'
+target = 'LEVA'
+source = 'exin'
 classifier = 'svm'
-feature_selection = False
+feature_selection = True
 # result = cdu.get_result(classifier+'_'+soure+'_'+target+'.csv')
 # label = result['label']
 # probas_ = result[['0', '1']].values
@@ -71,7 +71,7 @@ spe = []
 acc = []
 for inx in range(0, 10, 1):
     if feature_selection :
-        result = cdu.get_result(source+'_fs'+os.sep+classifier+'_'+source+'_'+target+'_fs_'+str(inx)+'.csv')
+        result = cdu.get_result(source+'_fs'+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
     else:
         result = cdu.get_result(source+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
         # result = cdu.get_result(classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
@@ -95,7 +95,7 @@ print('---')
 print(classification_report(labels, predicts, digits=4))
 # print(round(accuracy_score(labels, predicts), 4))
 print(target)
-print(round(np.mean(acc), 4), round(np.std(acc), 4))
-print(round(np.mean(sen), 4), round(np.std(sen), 4))
-print(round(np.mean(spe), 4), round(np.std(spe), 4))
+print(round(np.mean(acc)*100, 2), round(np.std(acc)*100, 2))
+print(round(np.mean(sen)*100, 2), round(np.std(sen)*100, 2))
+print(round(np.mean(spe)*100, 2), round(np.std(spe)*100, 2))
 
