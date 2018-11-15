@@ -1,0 +1,6 @@
+python svm.py RMCA ex ''
+python svm.py RIVA ex ''
+python svm.py LMCA ex ''
+python svm.py LIVA ex ''
+python feature_selection_greedy_search.py LMCA ex
+python feature_selection_greedy_search.py RMCA ex

@@ -49,7 +49,7 @@ LPCA
 LEVA
 LIVA
 '''
-target = 'BA'
+target = 'LCCA'
 source = 'ex'
 classifier = 'svm'
 feature_selection = False
