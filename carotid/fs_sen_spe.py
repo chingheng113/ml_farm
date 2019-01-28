@@ -31,7 +31,7 @@ def get_p(cm):
 
 targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
            'LMCA', 'LPCA', 'LEVA', 'LIVA']
-source = 'exin'
+source = 'ex'
 portions = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
 colors = cm.gnuplot(np.linspace(0, 1, len(targets)))
 fig, axes = plt.subplots(17, sharex=True, figsize=(8, 8), constrained_layout=False)
@@ -65,7 +65,7 @@ for inx, target in enumerate(targets):
     axes[inx].legend(loc="center left", bbox_to_anchor=(1, 0.5), prop={'size': 8})
     axes[inx].set_xlim(0.2, 0.7)
 
-fig.text(0.5, 0.05, 'Portion of selection', ha='center', va='center')
+fig.text(0.5, 0.05, 'Proportion of selection', ha='center', va='center')
 fig.text(0.03, 0.5, 'Sensitivity', ha='center', va='center', rotation='vertical')
 
 plt.subplots_adjust(hspace=0.2)

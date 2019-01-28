@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, roc_curve, auc
 import matplotlib.pyplot as plt
 import os
-
+from scipy import interp
 
 def get_p(cm):
     TN = cm[0][0]
@@ -30,6 +30,11 @@ def get_p(cm):
     return TPR, TNR, ACC
 
 
+def calculate_roc_auc(label, probas_):
+    # Compute ROC curve and area the curve
+    fpr, tpr, thresholds = roc_curve(label, probas_[:, 1])
+    roc_auc = auc(fpr, tpr)
+    return fpr, tpr, roc_auc
 '''
 RCCA
 REICA
@@ -52,7 +57,7 @@ LIVA
 target = 'LEVA'
 source = 'exin'
 classifier = 'svm'
-feature_selection = True
+feature_selection = False
 # result = cdu.get_result(classifier+'_'+soure+'_'+target+'.csv')
 # label = result['label']
 # probas_ = result[['0', '1']].values
@@ -69,9 +74,10 @@ feature_selection = True
 sen =[]
 spe = []
 acc = []
+auc_arr = []
 for inx in range(0, 10, 1):
-    if feature_selection :
-        result = cdu.get_result(source+'_fs'+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
+    if feature_selection:
+        result = cdu.get_result(source+'_fs'+os.sep+classifier+'_'+source+'_'+target+'_fs_'+str(inx)+'.csv')
     else:
         result = cdu.get_result(source+os.sep+classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
         # result = cdu.get_result(classifier+'_'+source+'_'+target+'_'+str(inx)+'.csv')
@@ -81,6 +87,7 @@ for inx in range(0, 10, 1):
     print(classification_report(label, predict, digits=4))
     cm = confusion_matrix(label, predict)
     TPR, TNR, ACC = get_p(cm)
+    fpr, tpr, roc_auc = calculate_roc_auc(label, probas_)
     if inx == 0:
         labels = label
         predicts = predict
@@ -90,7 +97,7 @@ for inx in range(0, 10, 1):
     sen.append(TPR)
     spe.append(TNR)
     acc.append(ACC)
-
+    auc_arr.append(roc_auc)
 print('---')
 print(classification_report(labels, predicts, digits=4))
 # print(round(accuracy_score(labels, predicts), 4))
@@ -98,4 +105,4 @@ print(target)
 print(round(np.mean(acc)*100, 2), round(np.std(acc)*100, 2))
 print(round(np.mean(sen)*100, 2), round(np.std(sen)*100, 2))
 print(round(np.mean(spe)*100, 2), round(np.std(spe)*100, 2))
-
+print(round(np.mean(auc_arr)*100, 2), round(np.std(auc_arr)*100, 2))
