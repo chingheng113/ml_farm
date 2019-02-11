@@ -33,17 +33,13 @@ targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA
            'LMCA', 'LPCA', 'LEVA', 'LIVA']
 source = 'ex'
 portions = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
-colors = cm.gnuplot(np.linspace(0, 1, len(targets)))
-fig, axes = plt.subplots(17, sharex=True, figsize=(10, 10), constrained_layout=False)
-# if source == 'ex':
-#     plt.suptitle('Sensitive changes of different number of extracranial inputs')
-# else:
-#     plt.suptitle('Sensitive changes of different number of extracranial and intracranial inputs')
+colors = cm.gnuplot(np.linspace(0, 0.5, len(targets)))
+fig, axes = plt.subplots(nrows=17, ncols=2, sharex=True, figsize=(10, 20), constrained_layout=False)
 for inx, target in enumerate(targets):
     sen_por = []
     sdv_por = []
     for portion in portions:
-        result = cdu.get_result('fs_grid'+os.sep+target+'_'+source+'_'+str(portion)+'_fs.csv')
+        result = cdu.get_result('fs_grid'+os.sep+target+'_ex_'+str(portion)+'_fs.csv')
         length = int(result.shape[0]/10)
         start = 0
         end = length
@@ -56,19 +52,52 @@ for inx, target in enumerate(targets):
             # print(portion, TPR, TNR, ACC)
             start = length
             end = end+length
-        print(target, portion, round(np.mean(sen), 4), round(np.std(sen), 4))
-        sen_por.append(round(np.mean(sen), 4))
-        sdv_por.append(round(np.std(sen), 4))
+        print(target, portion, round(np.mean(sen), 3), round(np.std(sen), 3))
+        sen_por.append(round(np.mean(sen), 3))
+        sdv_por.append(round(np.std(sen), 3))
 
-    axes[inx].errorbar(portions, sen_por, yerr=sdv_por, label=target, c=colors[inx])
-    axes[inx].set_facecolor('silver')
-    axes[inx].legend(loc="center left", bbox_to_anchor=(1, 0.5), prop={'size': 8})
-    axes[inx].set_xlim(0.2, 0.7)
+    axes[inx,0].errorbar(portions, sen_por, yerr=sdv_por, label=target, c=colors[inx])
+    axes[inx,0].set_facecolor('silver')
+    axes[inx,0].set_xlim(0.2, 0.7)
+axes[0,0].title.set_text('Extracranial Inputs')
+
+for inx, target in enumerate(targets):
+    sen_por = []
+    sdv_por = []
+    for portion in portions:
+        result = cdu.get_result('fs_grid'+os.sep+target+'_exin_'+str(portion)+'_fs.csv')
+        length = int(result.shape[0]/10)
+        start = 0
+        end = length
+        sen = []
+        for i in range(0, 10):
+            result_10 = result.iloc[start:end, :]
+            cm = confusion_matrix(result_10['label'], result_10['predict'])
+            TPR, TNR, ACC = get_p(cm)
+            sen.append(TPR)
+            # print(portion, TPR, TNR, ACC)
+            start = length
+            end = end+length
+        print(target, portion, round(np.mean(sen), 3), round(np.std(sen), 3))
+        sen_por.append(round(np.mean(sen), 3))
+        sdv_por.append(round(np.std(sen), 3))
+
+    axes[inx,1].errorbar(portions, sen_por, yerr=sdv_por, label=target, c=colors[inx])
+    axes[inx,1].set_facecolor('silver')
+    axes[inx,1].legend(loc="center left", bbox_to_anchor=(1, 0.5), prop={'size': 8})
+    axes[inx,1].set_xlim(0.2, 0.7)
+axes[0,1].title.set_text('Extracranial and Intracranial Inputs')
+
+plt.setp(axes, xticks=[0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
+         xticklabels=["0.2\n(n=33)", "0.3\n(n=50)", "0.4\n(n=66)", "0.5\n(n=83)", "0.6\n(n=99)", "0.7\n(n=116)"])
+
+
 fig.text(0.5, 0.05, 'Proportion of selection', ha='center', va='center')
 fig.text(0.03, 0.5, 'Sensitivity', ha='center', va='center', rotation='vertical')
 
-plt.subplots_adjust(hspace=0.2)
+plt.subplots_adjust(hspace=0.5)
+plt.savefig('sensitivity_changes.png', dpi=400)
 plt.show()
-print('done')
+print('Still need manually modify the figure')
 
 

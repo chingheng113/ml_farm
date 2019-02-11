@@ -17,7 +17,7 @@ def cross_selected(df_all):
 # https://zhuanlan.zhihu.com/p/28447106
 targets = ['RCCA', 'REICA', 'RIICA', 'RACA', 'RMCA', 'RPCA', 'REVA', 'RIVA', 'BA', 'LCCA', 'LEICA', 'LIICA', 'LACA',
            'LMCA', 'LPCA', 'LEVA', 'LIVA']
-soure = 'exin'
+soure = 'ex'
 for index, target in enumerate(targets):
     all_selected_features = []
     with open('fs'+os.sep+target+'_'+soure+'_fs.csv') as csv_file:
@@ -39,15 +39,22 @@ df_all.sort_values(by=['selected_total'], ascending=False, inplace=True)
 df_all = df_all.iloc[0:20,:]
 df_all.drop(['selected_total'], inplace=True, axis=1)
 
-f, ax = plt.subplots(figsize = (50, df_all.shape[0]))
-cmap = sns.cubehelix_palette(start=1, rot=3, gamma=0.8, as_cmap=True)
+f = plt.subplots(figsize=(50, df_all.shape[0]))
+ax = plt.subplot2grid((20,20), (0,0), colspan=19, rowspan=19)
+ax2 = plt.subplot2grid((20,20), (0,19), colspan=1, rowspan=19)
+
+cmap = sns.color_palette("cubehelix_r", 10)
 g = sns.heatmap(df_all, cmap=cmap, linewidths=0.05, ax=ax)
+a = df_all.sum(axis=0)
+sns.heatmap(pd.DataFrame(df_all.sum(axis=1)), ax=ax2,  annot=True, fmt='g', cmap=cmap, cbar=False,
+            xticklabels=False, yticklabels=False)
+
 if soure == 'ex':
     ax.set_title('Feature Selection Heatmap of Extracranial Inputs')
 else:
     ax.set_title('Feature Selection Heatmap of Extracranial and Intracranial Inputs')
 ax.set_xlabel('Dataset')
 ax.set_ylabel('Feature')
-ax.set_yticklabels(g.get_yticklabels(), rotation=40, fontsize=10)
+ax.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=10)
 plt.show()
-print('done')
+print('still need manually modify')
