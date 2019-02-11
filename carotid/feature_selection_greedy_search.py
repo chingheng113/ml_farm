@@ -51,7 +51,7 @@ def fs(target, source):
                     all_importance = np.vstack((all_importance, importances))
                 indices = np.argsort(importances)[::-1]
                 # classifier =====
-                cut = int(round(len(indices)*portion, 0))
+                cut = int(round(len(indices)*portion, 0))-1
                 indices_cut = indices[0:cut]
                 x_data = x_data_all.ix[:, indices_cut]
                 scaled_data = data_util.scale(x_data)
@@ -69,4 +69,5 @@ def fs(target, source):
 if __name__ == '__main__':
     # target = 'BA'
     # source = 'ex'
-    fs(sys.argv[1], sys.argv[2])
+    # fs(sys.argv[1], sys.argv[2])
+    fs('BA', 'ex')
