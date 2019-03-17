@@ -1,0 +1,11 @@
+Background
+Complementary and alternative medicine (CAM) use has steadily increased globally over the past two decades and is increasingly playing a role in the healthcare system in the United States. CAM practice-based effectiveness research requires an understanding of the settings in which CAM practitioners provide services. This paper describes and quantifies practice environment characteristics for a cross-sectional sample of doctors of chiropractic (DCs), licensed acupuncturists (LAcs), and licensed massage therapists (LMTs) in the United States.
+
+Methods
+Using a cross-sectional telephone survey of DCs (n = 32), LAcs (n = 70), and LMTs (n = 184) in the Tucson, AZ metropolitan area, we collected data about each location where practitioners work, as well as measures on practitioner and practice characteristics including: patient volume, number of locations where practitioners worked, CAM practitioner types working at each location, and business models of practice.
+
+Results
+The majority of practitioners reported having one practice location (93.8% of DCs, 80% of LAcs and 59.8% of LMTs) where they treat patients. Patient volume/week was related to practitioner type; DCs saw 83.13 (SD = 49.29) patients/week, LAcs saw 22.29 (SD = 16.88) patients/week, and LMTs saw 14.21 (SD =10.25) patients per week. Practitioners completed surveys for N = 388 practice locations. Many CAM practices were found to be multidisciplinary and/or have more than one practitioner: 9/35 (25.7%) chiropractic practices, 24/87 (27.6%) acupuncture practices, and 141/266 (53.0%) massage practices. Practice business models across CAM practitioner types were heterogeneous, e.g. sole proprietor, employee, partner, and independent contractor.
+
+Conclusions
+CAM practices vary across and within disciplines in ways that can significantly impact design and implementation of practice-based research. CAM research and intervention programs need to be mindful of the heterogeneity of CAM practices in order to create appropriate interventions, study designs, and implementation plans.
