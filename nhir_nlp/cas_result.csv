@@ -1,0 +1,3 @@
+fileName,ProcedureMention,SignSymptomMention,MedicationMention,DiseaseDisorderMention
+test2.txt.xml,aromatherapy<C0376547>;complementary<C0936077>;therapy<C0087111>;hand<C0729315>;massage<C0024875>;nursing<C0028678>;observation<C0557985>;,elderly<C0001792>;psychological<C0233397>;symptom<C1457887>;quality<C0518214>;nursing<C0006147>;adl<C0001288>;follow<C0589120>;mood<C0026516>;,,dementia<C0011265>;dementia<C0497327>;
+test.txt.xml,paper<C0523444>;chiropractic<C0344217>;massage<C0024875>;acupuncture<C0394664>;,understanding<C0162340>;service<C0557854>;independent<C1299583>;,program<C2728259>;,
